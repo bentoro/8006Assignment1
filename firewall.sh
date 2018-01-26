@@ -12,6 +12,11 @@ $IP -P OUTPUT DROP
 $IP -N OUT
 $IP -N IN
 
+$IP -A INPUT -p tcp -m tcp --sport 0 -j DROP
+$IP -A INPUT -p tcp -m tcp --dport 0 -j DROP
+$IP -A INPUT -p udp -m udp --sport 0 -j DROP
+$IP -A INPUT -p udp -m udp --dport 0 -j DROP
+
 #allow DHCP
 $IP -A INPUT -p udp -m udp --sport 67 -j ACCEPT
 $IP -A INPUT -p udp -m udp --dport 68 -j ACCEPT
