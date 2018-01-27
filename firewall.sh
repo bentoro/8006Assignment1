@@ -7,9 +7,9 @@ $IP -F
 $IP -X
 
 #set default policies
-$IP -P INPUT DROP
-$IP -P FORWARD DROP
-$IP -P OUTPUT DROP
+$IP -P INPUT ACCEPT
+$IP -P FORWARD ACCEPT
+$IP -P OUTPUT ACCEPT
 
 #create user-defined chains
 $IP -N OUT
@@ -21,8 +21,10 @@ $IP -A INPUT -p tcp -m tcp --sport 0 -j DROP
 $IP -A INPUT -p tcp -m tcp --dport 0 -j DROP
 $IP -A INPUT -p udp -m udp --sport 0 -j DROP
 $IP -A INPUT -p udp -m udp --dport 0 -j DROP
-
-
+$IP -A OUTPUT -p tcp -m tcp --sport 0 -j DROP
+$IP -A OUTPUT -p tcp -m tcp --dport 0 -j DROP
+$IP -A OUTPUT -p udp -m udp --sport 0 -j DROP
+$IP -A OUTPUT -p udp -m udp --dport 0 -j DROP
 
 #allow DNS
 $IP -A INPUT -p tcp --dport 53 -j ACCEPT
@@ -36,7 +38,6 @@ $IP -A INPUT -p udp --sport 67:68 --dport 67:68 -j ACCEPT
 
 $IP -A OUTPUT -p tcp --dport 443 -j ACCEPT
 $IP -A INPUT -p tcp --dport 443 -j ACCEPT
-
 #allow HTTP
 $IP -A INPUT -p tcp -m tcp --dport 80 --sport 1024:65535 -j ACCEPT
 #allow HTTP
@@ -57,6 +58,7 @@ $IP -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 $IP -A OUTPUT -p tcp -m tcp --sport 22 -j ACCEPT
 $IP -A OUTPUT -p tcp -m tcp --dport 22 -j ACCEPT
 
+$IP -A INPUT -p tcp --syn -j DROP
 #allow DNS
 #$IP -A OUTPUT -p tcp -m udp --sport 63 -j ACCEPT
 #$IP -A OUTPUT -p tcp -m udp --dport 63 -j ACCEPT
