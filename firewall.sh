@@ -1,7 +1,7 @@
 IP="/sbin/iptables"
 
-TCPD=(53 443 80 1024:65535 22)
-TCPS=(53 443 80	 22)
+#TCPD=(53 443 80 1024:65535 22)
+#TCPS=(53 443 80	 22)
 
 #flush iptables
 $IP -F
@@ -49,8 +49,7 @@ $IP -A INPUT -p tcp --dport 443 -j ACCEPT
 $IP -A ACCT -j ACCEPT
 
 #allow HTTP
-$IP -A INPUT -p tcp -m tcp --dport 80 -j ACCT
-$IP -A INPUT -p tcp -m tcp --sport 1024:65535 -j ACCT
+$IP -A INPUT -p tcp -m tcp --dport 80 --sport 1024:65535 -j ACCT
 $IP -A OUTPUT -p tcp -m tcp --sport 80 -j ACCT
 $IP -A OUTPUT -p tcp -m tcp --dport 80 -j ACCT
 
@@ -61,23 +60,23 @@ $IP -A INPUT -p tcp -m tcp --dport 22 -j ACCT
 $IP -A OUTPUT -p tcp -m tcp --sport 22 -j ACCT
 $IP -A OUTPUT -p tcp -m tcp --dport 22 -j ACCT
 
-for i in "${TCPD}"
-do
-	:
-	$IP -A INPUT -p tcp -m tcp --sport $i -j ACCEPT
-	$IP -A INPUT -p tcp -m tcp --dport $i -j ACCEPT
-	$IP -A OUTPUT -p tcp -m tcp --sport $i -j ACCEPT
-	$IP -A OUTPUT -p tcp -m tcp --dport $I -j ACCEPT
-done
+#for i in "${TCPD}"
+#do
+#	:
+#	$IP -A INPUT -p tcp -m tcp --sport $i -j ACCEPT
+#	$IP -A INPUT -p tcp -m tcp --dport $i -j ACCEPT
+#	$IP -A OUTPUT -p tcp -m tcp --sport $i -j ACCEPT
+#	$IP -A OUTPUT -p tcp -m tcp --dport $I -j ACCEPT
+#done
 
-for i in "${UDPD}"
-do
-	:
-	$IP -A INPUT -p tcp -m tcp --sport $I -j ACCEPT
-	$IP -A INPUT -p tcp -m tcp --dport $I -j ACCEPT
-	$IP -A OUTPUT -p tcp -m tcp --sport $I -j ACCEPT
-	$IP - A OUTPUT -p tcp -m tcp --dport $I -j ACCEPT
-done
+#for i in "${UDPD}"
+#do
+#	:
+#	$IP -A INPUT -p tcp -m tcp --sport $I -j ACCEPT
+#	$IP -A INPUT -p tcp -m tcp --dport $I -j ACCEPT
+#	$IP -A OUTPUT -p tcp -m tcp --sport $I -j ACCEPT
+#	$IP - A OUTPUT -p tcp -m tcp --dport $I -j ACCEPT
+#done
 
 #drop all syn packets
 $IP -A INPUT -p tcp --syn -j DROP
